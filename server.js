@@ -130,7 +130,7 @@ app.post('/api/submit-reading', (req, res) => {
 // 5. Listening Audio URL
 app.get('/api/listening-audio', (req, res) => {
   res.json({
-    audioUrl: "https://drive.google.com/file/d/1xQbFo9AEW81RUssaubtMAyN6y9xdbw7v/view?usp=sharing"
+    audioUrl: "https://docs.google.com/uc?export=download&id=1xQbFo9AEW81RUssaubtMAyN6y9xdbw7v"
   });
 });
 
