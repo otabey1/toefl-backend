@@ -62,23 +62,68 @@ Give a score from 0 to 30 and explain why.`;
 
 // 3. Reading Passages (2 passages with questions)
 app.get('/api/reading-passages', (req, res) => {
-  const passage1 = {
-    title: "The History of Flight",
-    text: "The development of aviation began with early balloon flights...",
-    questions: [
-      { q: "What is the main idea of the passage?", options: ["A", "B", "C", "D"], answer: "A" },
-      // 9 more...
-    ]
-  };
+  const passage = {
+    text: "In recent decades, climate change has emerged as a significant global challenge that threatens both natural ecosystems and human societies. Scientists around the world agree that rising levels of greenhouse gases, such as carbon dioxide and methane, are major contributors to global warming. These gases trap heat in the Earth’s atmosphere, causing average temperatures to rise. This warming trend has been linked to more frequent and intense weather events, including hurricanes, droughts, and heatwaves. In the Arctic, for example, ice sheets are melting at unprecedented rates, leading to rising sea levels that threaten coastal cities.
 
-  const passage2 = {
-    title: "Renewable Energy Sources",
-    text: "Renewable energy is obtained from natural sources...",
+Human activities are the primary source of greenhouse gas emissions. The burning of fossil fuels for electricity, transportation, and industrial processes releases vast amounts of carbon into the atmosphere. Deforestation also plays a role, as trees that absorb carbon dioxide are cut down for agriculture and development. To address these issues, many countries have joined international agreements such as the Paris Accord, which aims to limit global temperature rise to below 2 degrees Celsius.
+
+Mitigation strategies include transitioning to renewable energy sources like wind, solar, and hydroelectric power. Additionally, improving energy efficiency in homes and businesses can reduce overall emissions. On a personal level, individuals can contribute by reducing waste, using public transportation, and supporting sustainable practices.
+
+Despite growing awareness, progress has been slow. Economic interests, political challenges, and misinformation have hindered large-scale action. However, youth movements and climate activists have brought renewed attention to the issue, demanding that governments and corporations take responsibility.
+
+Ultimately, addressing climate change requires coordinated global efforts. The actions taken today will determine the quality of life for future generations, making it one of the most pressing issues of our time.",
     questions: [
-      { q: "Which is a negative fact mentioned?", options: ["A", "B", "C", "D"], answer: "C" },
-      // 9 more...
+      {
+        q: "1. What is the main idea of the passage?",
+        options: ["A. The effects of weather on agriculture", "B. Strategies for saving electricity", "C. Climate change as a global threat", "D. Tree planting campaigns"],
+        answer: "C"
+      },
+      {
+        q: "2. Which of the following contributes MOST to greenhouse gas emissions?",
+        options: ["A. Planting trees", "B. Riding bicycles", "C. Burning fossil fuels", "D. Using solar panels"],
+        answer: "C"
+      },
+      {
+        q: "3. The word 'mitigation' in the passage is closest in meaning to:",
+        options: ["A. Increase", "B. Prevention", "C. Reduction", "D. Agreement"],
+        answer: "C"
+      },
+      {
+        q: "4. What does the passage suggest about sea levels?",
+        options: ["A. They are not affected by climate change", "B. They are rising due to melting ice", "C. They are dropping due to evaporation", "D. They stay constant"],
+        answer: "B"
+      },
+      {
+        q: "5. Which is NOT listed as a renewable energy source in the passage?",
+        options: ["A. Solar", "B. Wind", "C. Hydroelectric", "D. Natural Gas"],
+        answer: "D"
+      },
+      {
+        q: "6. What is the author's attitude toward current climate action?",
+        options: ["A. Optimistic", "B. Disappointed but hopeful", "C. Unconcerned", "D. Satisfied"],
+        answer: "B"
+      },
+      {
+        q: "7. Why is deforestation harmful, according to the passage?",
+        options: ["A. It creates jobs", "B. It reduces carbon absorption", "C. It produces oxygen", "D. It causes wildfires"],
+        answer: "B"
+      },
+      {
+        q: "8. What can individuals do to fight climate change?",
+        options: ["A. Avoid all technology", "B. Drive more often", "C. Use public transportation", "D. Ignore government policies"],
+        answer: "C"
+      },
+      {
+        q: "9. The phrase 'coordinated global efforts' suggests:",
+        options: ["A. Countries acting alone", "B. Worldwide collaboration", "C. Ignoring international rules", "D. Corporate independence"],
+        answer: "B"
+      },
+      {
+        q: "10. According to the passage, what group has increased pressure for climate action?",
+        options: ["A. Oil companies", "B. Scientists", "C. Youth activists", "D. Meteorologists"],
+        answer: "C"
+      }
     ]
-  };
 
   res.json({ passages: [passage1, passage2] });
 });
@@ -92,17 +137,27 @@ app.post('/api/submit-reading', (req, res) => {
 
 // 5. Listening Audio URL
 app.get('/api/listening-audio', (req, res) => {
-  res.json({ audioUrl: 'https://example.com/audio.mp3' });
+  res.json({
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  });
 });
 
 // 6. Listening Questions
 app.get('/api/listening-questions', (req, res) => {
-  res.json({
-    questions: [
-      { q: "What is the main point?", options: ["A", "B", "C", "D"], answer: "B" },
-      // more...
-    ]
-  });
+  const questions = [
+    {
+      q: "1. What is the primary purpose of the talk?",
+      options: ["A. Explain a process", "B. Announce an event", "C. Describe a person's life", "D. Introduce a guest speaker"],
+      answer: "B"
+    },
+    {
+      q: "2. What does the speaker suggest the students bring?",
+      options: ["A. Their textbooks", "B. ID cards", "C. An umbrella", "D. A pen and notebook"],
+      answer: "C"
+    }
+    // You can add more questions here as needed
+  ];
+  res.json({ questions });
 });
 
 // 7. Submit Listening
