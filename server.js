@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const { Configuration, OpenAIApi } = require('openai');
 require('dotenv').config();
 
+app.use(express.static('public'));
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -129,9 +131,7 @@ app.post('/api/submit-reading', (req, res) => {
 
 // 5. Listening Audio URL
 app.get('/api/listening-audio', (req, res) => {
-  res.json({
-    audioUrl: "https://docs.google.com/uc?export=download&id=1xQbFo9AEW81RUssaubtMAyN6y9xdbw7v"
-  });
+  res.json({ audioUrl: `${req.protocol}://${req.get('host')}/listening.mp3` });
 });
 
 // 6. Listening Questions
