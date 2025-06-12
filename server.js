@@ -1,10 +1,21 @@
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { Configuration, OpenAIApi } = require('openai');
 require('dotenv').config();
-const OpenAI = require("openai");
 
-const prompts = [
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+});
+const openai = new OpenAIApi(configuration);
+
+// 1. Writing Prompt
+const writingPrompts = [
   "Do you agree or disagree that it's better to study alone than with a group?",
   "Some people think it’s better to work for a small company. Others prefer a large one. Which do you prefer and why?",
   "Do you agree or disagree with the idea that children should begin formal education at a very early age?",
@@ -27,35 +38,105 @@ const prompts = [
   "Should parents limit their children’s screen time?"
 ];
 
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+app.get('/api/writing-prompt', (req, res) => {
+  const prompt = writingPrompts[Math.floor(Math.random() * writingPrompts.length)];
+  res.json({ prompt });
 });
 
+// 2. Writing Submission
 app.post('/api/submit-writing', async (req, res) => {
-  const userAnswer = req.body.answer;
+  const { answer } = req.body;
+  const gptPrompt = `Evaluate this TOEFL writing response:
+"${answer}"
+Give a score from 0 to 30 and explain why.`;
 
-  const response = await openai.chat.completions.create({
+  const completion = await openai.createChatCompletion({
     model: "gpt-4",
-    messages: [
-      {
-        role: "user",
-        content: `You are a TOEFL writing evaluator. Score and give feedback on this writing:\n\n${userAnswer}\n\nGive a score from 0 to 30 and short feedback.`
-      }
-    ],
+    messages: [{ role: "user", content: gptPrompt }],
   });
 
-  res.json({ feedback: response.choices[0].message.content });
+  const feedback = completion.data.choices[0].message.content;
+  res.json({ feedback });
 });
 
-app.get('/api/writing-prompt', (req, res) => {
-  const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-  res.json({ prompt: randomPrompt });
+// 3. Reading Passages (2 passages with questions)
+app.get('/api/reading-passages', (req, res) => {
+  const passage1 = {
+    title: "The History of Flight",
+    text: "The development of aviation began with early balloon flights...",
+    questions: [
+      { q: "What is the main idea of the passage?", options: ["A", "B", "C", "D"], answer: "A" },
+      // 9 more...
+    ]
+  };
+
+  const passage2 = {
+    title: "Renewable Energy Sources",
+    text: "Renewable energy is obtained from natural sources...",
+    questions: [
+      { q: "Which is a negative fact mentioned?", options: ["A", "B", "C", "D"], answer: "C" },
+      // 9 more...
+    ]
+  };
+
+  res.json({ passages: [passage1, passage2] });
+});
+
+// 4. Submit Reading
+app.post('/api/submit-reading', (req, res) => {
+  const { answers } = req.body;
+  // TODO: compare answers to correct ones, return score
+  res.json({ score: 25 });
+});
+
+// 5. Listening Audio URL
+app.get('/api/listening-audio', (req, res) => {
+  res.json({ audioUrl: 'https://example.com/audio.mp3' });
+});
+
+// 6. Listening Questions
+app.get('/api/listening-questions', (req, res) => {
+  res.json({
+    questions: [
+      { q: "What is the main point?", options: ["A", "B", "C", "D"], answer: "B" },
+      // more...
+    ]
+  });
+});
+
+// 7. Submit Listening
+app.post('/api/submit-listening', (req, res) => {
+  const { answers } = req.body;
+  // TODO: score answers
+  res.json({ score: 27 });
+});
+
+// 8. Speaking Prompt
+const speakingPrompts = [
+  "Do you prefer to study in the morning or at night?",
+  "Describe your favorite place to relax and why.",
+  "What is one important skill every person should have?"
+];
+
+app.get('/api/speaking-topic', (req, res) => {
+  const topic = speakingPrompts[Math.floor(Math.random() * speakingPrompts.length)];
+  res.json({ topic });
+});
+
+// 9. Submit Full Test
+app.post('/api/submit-test', (req, res) => {
+  const { writingScore, readingScore, listeningScore, speakingScore } = req.body;
+  const total = writingScore + readingScore + listeningScore + speakingScore;
+  res.json({
+    writing: writingScore,
+    reading: readingScore,
+    listening: listeningScore,
+    speaking: speakingScore,
+    total
+  });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
