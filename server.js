@@ -130,7 +130,7 @@ app.post('/api/submit-reading', (req, res) => {
 // 5. Listening Audio URL
 app.get('/api/listening-audio', (req, res) => {
   res.json({
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    audioUrl: "https://drive.google.com/file/d/1xQbFo9AEW81RUssaubtMAyN6y9xdbw7v/view?usp=sharing"
   });
 });
 
@@ -138,15 +138,30 @@ app.get('/api/listening-audio', (req, res) => {
 app.get('/api/listening-questions', (req, res) => {
   const questions = [
     {
-      q: "1. What is the primary purpose of the talk?",
-      options: ["A. Explain a process", "B. Announce an event", "C. Describe a person's life", "D. Introduce a guest speaker"],
+      q: "1. Why does Dr. Burnham discuss the case of Macquarie Island?",
+      options: ["A. To illustrate how interrelated species prey on each other", "B. To explain the history of the island's unique ecosystem", "C. To show how human interference can damage nature"],
+      answer: "C"
+    },
+        {
+      q: "2. Why was myxomatosis introduced by scientists?",
+      options: ["A. To reduce the population of rabbits on the island", "B. as a pesticide to protect the island's plant life", "C. To wipe out the rodents that reached the shore"],
+      answer: "A"
+    },
+        {
+      q: "3. What was the effect of wiping out the cats",
+      options: ["A. birds were able to nest in the ground", "B. Rabbits reproduces at a repid rate", "C. A whole species became extinct"],
       answer: "B"
     },
-    {
-      q: "2. What does the speaker suggest the students bring?",
-      options: ["A. Their textbooks", "B. ID cards", "C. An umbrella", "D. A pen and notebook"],
+        {
+      q: "4. Why is the removal of an alien species dangerouse?",
+      options: ["A. It causes the collapse of all ecosystems", "B. It leads to destruction of vagetetion", "C. It asversely affects a food chain"],
       answer: "C"
-    }
+    },
+    {
+      q: "5. What de we learn from the research on Macquarie Island?",
+      options: ["A. Reparing damage to the environment is costly", "B. Human intervention requores careful planning", "C. Conservation efforts have been wasted"],
+      answer: "B"
+    },
     // You can add more questions here as needed
   ];
   res.json({ questions });
