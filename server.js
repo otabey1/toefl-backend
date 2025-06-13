@@ -8,7 +8,10 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use(express.static('public'));
+
+// app.use(express.static('public'));
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
