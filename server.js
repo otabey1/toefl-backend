@@ -133,7 +133,7 @@ app.post('/api/submit-reading', (req, res) => {
 
 // 5. Listening Audio URL
 app.get('/api/listening-audio', (req, res) => {
-  res.json({ audioUrl: `${req.protocol}://${req.get('host')}/listening.mp3` });
+  res.json({ audioUrl: `${req.protocol}://${req.get('host')}/listening.MP3` });
 });
 
 // 6. Listening Questions
