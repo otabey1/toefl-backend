@@ -5,11 +5,10 @@ const bodyParser = require('body-parser');
 const { Configuration, OpenAIApi } = require('openai');
 require('dotenv').config();
 
-app.use(express.static('public'));
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
